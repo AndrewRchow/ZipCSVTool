@@ -52,7 +52,6 @@ namespace ZipCSVTool.Controllers
         public async Task<ActionResult<byte[]>> ZipAndDownload(Guid caseId, string fileName, string finalFolder)
         {
             string contentRootPath = _hostingEnvironment.ContentRootPath + "\\Content\\Csv";
-            string outputFilePath = _hostingEnvironment.ContentRootPath + "\\Content\\Zip\\CsvList.zip";
 
             using (var zipFile = new ZipFile())
             {
