@@ -1,0 +1,47 @@
+﻿
+
+<div class="row" style="margin-top:20px;">
+    <div class="col-md-12">
+        <input id="button1" type="submit" class="btn btn-info" value="Download Zip" />
+    </div>
+</div>
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+    $("#button1").click(function () {
+        $.ajax({
+            url: "@Url.Action(nameof(ZipCSVTool.Controllers.HomeController.ZipAndDownload))",
+            type: "POST",
+            success: function (data) {
+                console.log(data);
+                var arr = base64ToArrayBuffer(data);
+                downloadByteArray("CsvFiles", arr);
+            }
+        })
+    });
+
+    function base64ToArrayBuffer(base64) {
+        var binaryString = window.atob(base64);
+        var binaryLen = binaryString.length;
+        var bytes = new Uint8Array(binaryLen);
+        for (var i = 0; i < binaryLen; i++) {
+            var ascii = binaryString.charCodeAt(i);
+            bytes[i] = ascii;
+        }
+        return bytes;
+    }
+
+    function downloadByteArray(reportName, bytes) {
+        var blob = new Blob([bytes], { type: "application/zip" });
+        var link = document.createElement('a');
+        link.href = window.URL.createObjectURL(blob);
+        var fileName = reportName;
+        link.download = fileName;
+        link.click();
+    };
+
+
+</script>
